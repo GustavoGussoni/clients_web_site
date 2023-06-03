@@ -16,4 +16,4 @@ export const loginSchema = clientSchema.omit({
 });
 
 export type ClientData = z.infer<typeof clientSchema>;
-export type LoginSchema = z.infer<typeof loginSchema>;
+export type LoginData = z.infer<typeof loginSchema>;
