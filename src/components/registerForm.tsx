@@ -1,40 +1,25 @@
+import { useAuth } from "@/contexts/authContext";
+import { ClientData, clientSchema } from "@/schemas/client.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-    password: "",
+  const { register, handleSubmit } = useForm<ClientData>({
+    resolver: zodResolver(clientSchema),
   });
 
-  const { full_name, email, phone, password } = formData;
+  const { register: registerUser } = useAuth();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Lógica para enviar os dados do formulário
-    console.log(formData);
-    // Limpar os campos do formulário
-    setFormData({
-      full_name: "",
-      email: "",
-      phone: "",
-      password: "",
-    });
+  const onFormSubmit = (formData: ClientData) => {
+    registerUser(formData);
   };
 
   return (
     <div>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onFormSubmit)}
         className="bg-gray-500 shadow-lg rounded-lg overflow-hidden p-6"
       >
         <h1 className="font-bold text-2xl mb-4">Criar cadastro</h1>
@@ -45,10 +30,10 @@ const RegisterForm = () => {
           <input
             type="text"
             id="full_name"
-            name="full_name"
-            value={full_name}
-            onChange={handleChange}
+            // value={full_name}
+            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
+            {...register("full_name")}
           />
         </div>
         <div className="mb-4">
@@ -58,10 +43,10 @@ const RegisterForm = () => {
           <input
             type="email"
             id="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
+            // value={email}
+            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
+            {...register("email")}
           />
         </div>
         <div className="mb-4">
@@ -71,10 +56,10 @@ const RegisterForm = () => {
           <input
             type="tel"
             id="phone"
-            name="phone"
-            value={phone}
-            onChange={handleChange}
+            // value={phone}
+            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
+            {...register("phone")}
           />
         </div>
         <div className="mb-4">
@@ -84,10 +69,10 @@ const RegisterForm = () => {
           <input
             type="password"
             id="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
+            // value={password}
+            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
+            {...register("password")}
           />
         </div>
 
