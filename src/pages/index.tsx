@@ -1,4 +1,5 @@
 import ContactCard from "@/components/contactCard";
+import RegisterForm from "@/components/registerForm";
 import { contactData } from "@/schemas/contact.schema";
 import api from "@/services/api";
 import { GetServerSideProps, NextPage } from "next";
