@@ -10,6 +10,6 @@
 
 @layer components {
   .body {
-    @apply bg-gradient-to-b from-gray-500 to-gray-950 to-80% text-gray-100;
+    @apply bg-gradient-to-b from-gray-600 to-gray-950 to-80% text-white;
   }
 }
