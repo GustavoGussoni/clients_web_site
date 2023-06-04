@@ -1,4 +1,8 @@
-import { ClientData, LoginData } from "@/schemas/client.schema";
+import {
+  ClientData,
+  ClientRegisterData,
+  LoginData,
+} from "@/schemas/client.schema";
 import api from "@/services/api";
 import { useRouter } from "next/router";
 import { setCookie } from "nookies";
@@ -11,7 +15,7 @@ interface Props {
 
 interface authProviderData {
   //   setToken: (value: string) => void;
-  register: (clientData: ClientData) => void;
+  register: (clientData: ClientRegisterData) => void;
   login: (loginData: LoginData) => void;
   //   token: string | undefined;
 }
@@ -20,7 +24,7 @@ const AuthContext = createContext<authProviderData>({} as authProviderData);
 
 export const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
-  const register = (clientData: ClientData) => {
+  const register = (clientData: ClientRegisterData) => {
     api
       .post("/clients", clientData)
       .then(() => {
@@ -56,6 +60,12 @@ export const AuthProvider = ({ children }: Props) => {
       .post("/login", loginData)
       .then((response) => {
         setCookie(null, "client_token", response.data.token, {
+          maxAge: 60 * 30,
+          path: "/",
+        });
+      })
+      .then((response) => {
+        setCookie(null, "clientEmail", loginData.email, {
           maxAge: 60 * 30,
           path: "/",
         });

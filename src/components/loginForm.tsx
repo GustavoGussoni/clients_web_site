@@ -18,8 +18,8 @@ const LoginForm = () => {
   const { login } = useAuth();
 
   const onFormSubmit = (formData: LoginData) => {
+    // console.log(formData);
     login(formData);
-    console.log(formData);
   };
 
   // const { email, password } = formData;
