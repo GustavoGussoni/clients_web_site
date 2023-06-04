@@ -1,18 +1,24 @@
 import { useAuth } from "@/contexts/authContext";
-import { ClientData, clientSchema } from "@/schemas/client.schema";
+import {
+  ClientData,
+  ClientRegisterData,
+  clientSchema,
+  registerSchema,
+} from "@/schemas/client.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const RegisterForm = () => {
-  const { register, handleSubmit } = useForm<ClientData>({
-    resolver: zodResolver(clientSchema),
+  const { register, handleSubmit } = useForm<ClientRegisterData>({
+    resolver: zodResolver(registerSchema),
   });
 
   const { register: registerUser } = useAuth();
 
-  const onFormSubmit = (formData: ClientData) => {
+  const onFormSubmit = (formData: ClientRegisterData) => {
+    console.log(formData);
     registerUser(formData);
   };
 
