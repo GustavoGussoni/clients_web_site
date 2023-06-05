@@ -9,4 +9,11 @@ export const contactSchema = z.object({
   clientId: z.string(),
 });
 
+export const createContactSchema = contactSchema.omit({
+  id: true,
+  register_date: true,
+  clientId: true,
+});
+
 export type contactData = z.infer<typeof contactSchema>;
+export type createContactData = z.infer<typeof createContactSchema>;

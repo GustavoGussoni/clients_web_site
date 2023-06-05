@@ -1,4 +1,5 @@
 import ContactCard from "@/components/contactCard";
+import ContactModal from "@/components/contactModal";
 import RegisterForm from "@/components/registerForm";
 import { contactData } from "@/schemas/contact.schema";
 import api from "@/services/api";
@@ -6,6 +7,7 @@ import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import nookies from "nookies";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 interface ContactsProps {
@@ -24,6 +26,8 @@ const Contacts: NextPage<ContactsProps> = ({ contacts }) => {
         >
           Voltar para home
         </Link>
+        <ContactModal />
+
         {contacts ? (
           contacts.map((contact) => {
             return <ContactCard key={contact.id} contact={contact} />;
@@ -46,6 +50,10 @@ export const getServerSideProps: GetServerSideProps = async (cxt) => {
         permanent: false,
       },
     };
+  }
+
+  if (cookies.client_token) {
+    api.defaults.headers.common.authorization = `Bearer ${cookies.client_token}`;
   }
 
   try {
