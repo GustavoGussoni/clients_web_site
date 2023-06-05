@@ -3,9 +3,10 @@ import {
   ClientRegisterData,
   LoginData,
 } from "@/schemas/client.schema";
+import { createContactData } from "@/schemas/contact.schema";
 import api from "@/services/api";
 import { useRouter } from "next/router";
-import { setCookie } from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import { ReactNode, createContext, useContext } from "react";
 import { toast } from "react-toastify";
 
@@ -17,6 +18,7 @@ interface authProviderData {
   //   setToken: (value: string) => void;
   register: (clientData: ClientRegisterData) => void;
   login: (loginData: LoginData) => void;
+  registerContact: (contactData: createContactData) => void;
   //   token: string | undefined;
 }
 
@@ -98,8 +100,46 @@ export const AuthProvider = ({ children }: Props) => {
       });
   };
 
+  const registerContact = (contactData: createContactData) => {
+    const cookies = parseCookies();
+    const token = cookies.client_token;
+    api
+      .post("/contacts", contactData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        toast.success("Contato cadastrado! Redirecionando...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/contacts");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Erro! Email já utilizado...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/contacts");
+      });
+  };
+
   return (
-    <AuthContext.Provider value={{ register, login }}>
+    <AuthContext.Provider value={{ register, login, registerContact }}>
       {children}
     </AuthContext.Provider>
   );
