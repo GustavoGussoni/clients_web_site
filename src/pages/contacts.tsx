@@ -1,17 +1,17 @@
 import ContactCard from "@/components/contactCard";
 import ContactModal from "@/components/contactModal";
 import RegisterForm from "@/components/registerForm";
+import { ClientData, ClientReturnData } from "@/schemas/client.schema";
 import { contactData } from "@/schemas/contact.schema";
 import api from "@/services/api";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
+
 import nookies from "nookies";
-import { useState } from "react";
-import { toast } from "react-toastify";
 
 interface ContactsProps {
   contacts: contactData[];
+  client: ClientReturnData[];
 }
 
 const Contacts: NextPage<ContactsProps> = ({ contacts }) => {
@@ -51,17 +51,13 @@ export const getServerSideProps: GetServerSideProps = async (cxt) => {
       },
     };
   }
-
-  if (cookies.client_token) {
-    api.defaults.headers.common.authorization = `Bearer ${cookies.client_token}`;
-  }
-
   try {
     const response = await api.get<contactData[]>("/contacts", {
       headers: {
         Authorization: `Bearer ${cookies.client_token}`,
       },
     });
+
     return {
       props: { contacts: response.data },
     };

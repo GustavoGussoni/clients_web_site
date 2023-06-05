@@ -1,14 +1,10 @@
 import ClientCard from "@/components/clientCard";
-import ContactCard from "@/components/contactCard";
-import RegisterForm from "@/components/registerForm";
+import LogoutButton from "@/components/logoutButton";
 import { ClientData, ClientReturnData } from "@/schemas/client.schema";
-import { contactData } from "@/schemas/contact.schema";
 import api from "@/services/api";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import nookies from "nookies";
-import { toast } from "react-toastify";
 
 interface HomeProps {
   clients: ClientReturnData[];
@@ -21,7 +17,11 @@ const Home: NextPage<HomeProps> = ({ clients, client }) => {
       className={`body flex min-h-screen flex-col items-center justify-between p-24`}
     >
       <div className="flex flex-col gap-2">
-        <h1 className="self-center">Olá, {client[0].full_name}</h1>
+        <LogoutButton />
+        <h1 className="self-center font-bold">Olá, {client[0].full_name}.</h1>
+        <h1 className="self-center">
+          Seja bem-vindo ao app de gerenciamento de contatos.
+        </h1>
 
         <Link
           href={"/contacts"}

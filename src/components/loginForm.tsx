@@ -1,16 +1,11 @@
 import { LoginData, loginSchema } from "@/schemas/client.schema";
 import Link from "next/link";
-import { useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/contexts/appContext";
 
 const LoginForm = () => {
-  // const [formData, setFormData] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-
   const { register, handleSubmit } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
   });
@@ -18,29 +13,8 @@ const LoginForm = () => {
   const { login } = useAuth();
 
   const onFormSubmit = (formData: LoginData) => {
-    // console.log(formData);
     login(formData);
   };
-
-  // const { email, password } = formData;
-
-  // const handleChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Lógica para autenticar o usuário
-  //   console.log(formData);
-  //   // Limpar os campos do formulário
-  //   setFormData({
-  //     email: "",
-  //     password: "",
-  //   });
-  // };
 
   return (
     <form
@@ -55,8 +29,6 @@ const LoginForm = () => {
         <input
           type="email"
           id="email"
-          // value={email}
-          // onChange={handleChange}
           className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
           {...register("email")}
         />
@@ -68,8 +40,6 @@ const LoginForm = () => {
         <input
           type="password"
           id="password"
-          // value={password}
-          // onChange={handleChange}
           className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
           {...register("password")}
         />
