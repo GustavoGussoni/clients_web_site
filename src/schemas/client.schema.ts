@@ -28,7 +28,10 @@ export const clientReturnSchema = clientSchema.omit({
   password: true,
 });
 
+export const editClientSchema = registerSchema.optional();
+
 export type ClientData = z.infer<typeof clientSchema>;
 export type ClientRegisterData = z.infer<typeof registerSchema>;
 export type ClientReturnData = z.infer<typeof clientReturnSchema>;
 export type LoginData = z.infer<typeof loginSchema>;
+export type EditClientData = z.infer<typeof editClientSchema>;

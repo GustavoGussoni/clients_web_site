@@ -3,6 +3,7 @@ import { ClientReturnData } from "@/schemas/client.schema";
 import { contactData } from "@/schemas/contact.schema";
 import { useState } from "react";
 import EditContactModal from "./editContactModal";
+import EditClientModal from "./editClientModal";
 
 interface IClientCardProps {
   client: ClientReturnData;
@@ -20,9 +21,10 @@ const ClientCard = ({ client }: IClientCardProps) => {
         <p>Data de registro: {client.register_date}</p>
       </div>
       <div className="flex justify-end p-4">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2 rounded">
+        {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2 rounded">
           Editar
-        </button>
+        </button> */}
+        <EditClientModal clientId={client.id} />
         <button
           onClick={() => removeClient(client.id)}
           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
