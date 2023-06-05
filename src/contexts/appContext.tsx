@@ -19,12 +19,15 @@ interface authProviderData {
   register: (clientData: ClientRegisterData) => void;
   login: (loginData: LoginData) => void;
   registerContact: (contactData: createContactData) => void;
+  removeContact: (contactId: string) => void;
   //   token: string | undefined;
 }
 
 const AuthContext = createContext<authProviderData>({} as authProviderData);
 
 export const AuthProvider = ({ children }: Props) => {
+  const cookies = parseCookies();
+  const token = cookies.client_token;
   const router = useRouter();
   const register = (clientData: ClientRegisterData) => {
     api
@@ -101,8 +104,6 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   const registerContact = (contactData: createContactData) => {
-    const cookies = parseCookies();
-    const token = cookies.client_token;
     api
       .post("/contacts", contactData, {
         headers: {
@@ -138,8 +139,46 @@ export const AuthProvider = ({ children }: Props) => {
       });
   };
 
+  const removeContact = (contactId: string) => {
+    api
+      .delete(`/contacts/${contactId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        toast.success("Contato deletado!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/contacts");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Erro!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/contacts");
+      });
+  };
+
   return (
-    <AuthContext.Provider value={{ register, login, registerContact }}>
+    <AuthContext.Provider
+      value={{ register, login, registerContact, removeContact }}
+    >
       {children}
     </AuthContext.Provider>
   );
