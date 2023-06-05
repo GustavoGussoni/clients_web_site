@@ -15,5 +15,8 @@ export const createContactSchema = contactSchema.omit({
   clientId: true,
 });
 
+export const editContactSchema = createContactSchema.optional();
+
 export type contactData = z.infer<typeof contactSchema>;
 export type createContactData = z.infer<typeof createContactSchema>;
+export type editContactData = z.infer<typeof editContactSchema>;
