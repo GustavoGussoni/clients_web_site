@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Projeto realizado em [Next.js](https://nextjs.org/)
+
+Antes de iniciar, faça o clone do repositório https://github.com/GustavoGussoni/clients_api e siga as instruções.
 
 ## Getting Started
 
