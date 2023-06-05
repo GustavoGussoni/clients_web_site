@@ -9,7 +9,6 @@ interface IContactCardProps {
 
 const ContactCard = ({ contact }: IContactCardProps) => {
   const { removeContact } = useAuth();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="shadow-lg rounded-lg overflow-hidden">
@@ -34,18 +33,3 @@ const ContactCard = ({ contact }: IContactCardProps) => {
 };
 
 export default ContactCard;
-
-// <div>
-//       <div>
-//         <p>{contact.id}</p>
-//         <p>{contact.full_name}</p>
-//         <p>{contact.email}</p>
-//         <p>{contact.phone}</p>
-//         <p>{contact.register_date}</p>
-//         <p>{contact.clientId}</p>
-//       </div>
-//       <div>
-//         <button>editar</button>
-//         <button>excluir</button>
-//       </div>
-//     </div>

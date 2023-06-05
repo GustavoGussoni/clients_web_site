@@ -9,11 +9,6 @@ import { useForm } from "react-hook-form";
 
 const EditContactModal = ({ contactId }: { contactId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [contactData, setContactData] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-  });
 
   const handleOpenModal = () => {
     setIsOpen(true);

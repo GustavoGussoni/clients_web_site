@@ -9,11 +9,6 @@ import { useForm } from "react-hook-form";
 
 const ContactModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [contactData, setContactData] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-  });
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -30,7 +25,6 @@ const ContactModal = () => {
   const { registerContact } = useAuth();
 
   const onFormSubmit = (formData: createContactData) => {
-    console.log(formData);
     registerContact(formData);
     handleCloseModal();
   };

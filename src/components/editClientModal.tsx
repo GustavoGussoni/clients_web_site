@@ -4,10 +4,6 @@ import {
   EditClientData,
   registerSchema,
 } from "@/schemas/client.schema";
-import {
-  createContactData,
-  createContactSchema,
-} from "@/schemas/contact.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -86,7 +82,7 @@ const EditClientModal = ({ clientId }: { clientId: string }) => {
                   Senha:
                 </label>
                 <input
-                  type="tel"
+                  type="password"
                   id="password"
                   {...register("password")}
                   className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"

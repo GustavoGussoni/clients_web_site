@@ -1,5 +1,4 @@
 import {
-  ClientData,
   ClientRegisterData,
   EditClientData,
   LoginData,
@@ -15,8 +14,7 @@ interface Props {
   children: ReactNode;
 }
 
-interface authProviderData {
-  //   setToken: (value: string) => void;
+interface appProviderData {
   register: (clientData: ClientRegisterData) => void;
   login: (loginData: LoginData) => void;
   registerContact: (contactData: createContactData) => void;
@@ -24,12 +22,11 @@ interface authProviderData {
   removeClient: (clientId: string) => void;
   editContact: (contactId: string, contactData: editContactData) => void;
   editClient: (clientId: string, clientData: EditClientData) => void;
-  //   token: string | undefined;
 }
 
-const AuthContext = createContext<authProviderData>({} as authProviderData);
+const AppContext = createContext<appProviderData>({} as appProviderData);
 
-export const AuthProvider = ({ children }: Props) => {
+export const AppProvider = ({ children }: Props) => {
   const cookies = parseCookies();
   const token = cookies.client_token;
   const router = useRouter();
@@ -312,7 +309,7 @@ export const AuthProvider = ({ children }: Props) => {
       });
   };
   return (
-    <AuthContext.Provider
+    <AppContext.Provider
       value={{
         register,
         login,
@@ -324,8 +321,8 @@ export const AuthProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </AppContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AppContext);

@@ -1,13 +1,7 @@
 import { useAuth } from "@/contexts/appContext";
-import {
-  ClientData,
-  ClientRegisterData,
-  clientSchema,
-  registerSchema,
-} from "@/schemas/client.schema";
+import { ClientRegisterData, registerSchema } from "@/schemas/client.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const RegisterForm = () => {
@@ -18,7 +12,6 @@ const RegisterForm = () => {
   const { register: registerUser } = useAuth();
 
   const onFormSubmit = (formData: ClientRegisterData) => {
-    console.log(formData);
     registerUser(formData);
   };
 
@@ -36,8 +29,6 @@ const RegisterForm = () => {
           <input
             type="text"
             id="full_name"
-            // value={full_name}
-            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
             {...register("full_name")}
           />
@@ -49,8 +40,6 @@ const RegisterForm = () => {
           <input
             type="email"
             id="email"
-            // value={email}
-            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
             {...register("email")}
           />
@@ -62,8 +51,6 @@ const RegisterForm = () => {
           <input
             type="tel"
             id="phone"
-            // value={phone}
-            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
             {...register("phone")}
           />
@@ -75,8 +62,6 @@ const RegisterForm = () => {
           <input
             type="password"
             id="password"
-            // value={password}
-            // onChange={handleChange}
             className="border border-gray-300 rounded-md px-3 py-2 w-full text-black"
             {...register("password")}
           />
