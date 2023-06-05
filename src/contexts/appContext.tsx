@@ -1,6 +1,7 @@
 import {
   ClientData,
   ClientRegisterData,
+  EditClientData,
   LoginData,
 } from "@/schemas/client.schema";
 import { createContactData, editContactData } from "@/schemas/contact.schema";
@@ -22,6 +23,7 @@ interface authProviderData {
   removeContact: (contactId: string) => void;
   removeClient: (clientId: string) => void;
   editContact: (contactId: string, contactData: editContactData) => void;
+  editClient: (clientId: string, clientData: EditClientData) => void;
   //   token: string | undefined;
 }
 
@@ -216,6 +218,64 @@ export const AuthProvider = ({ children }: Props) => {
       });
   };
 
+  const editClient = (clientId: string, clientData: EditClientData) => {
+    api
+      .patch(`/clients/${clientId}`, clientData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        if (clientData?.email) {
+          setCookie(null, "clientEmail", clientData.email, {
+            maxAge: 60 * 30,
+            path: "/",
+          });
+        }
+        toast.success("Contato editado!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/");
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        if (err.response.data.message === "You can't edit other client") {
+          toast.error(
+            "Erro! Você não tem permissão para editar outro cliente...",
+            {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            }
+          );
+          return router.push("/");
+        }
+        toast.error("Erro! Email já cadastrado...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return router.push("/");
+      });
+  };
+
   const editContact = (contactId: string, contactData: editContactData) => {
     api
       .patch(`/contacts/${contactId}`, contactData, {
@@ -260,6 +320,7 @@ export const AuthProvider = ({ children }: Props) => {
         removeContact,
         removeClient,
         editContact,
+        editClient,
       }}
     >
       {children}
