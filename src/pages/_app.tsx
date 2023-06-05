@@ -1,5 +1,4 @@
 import { AuthProvider } from "@/contexts/authContext";
-import { ContactProvider } from "@/contexts/contactContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
