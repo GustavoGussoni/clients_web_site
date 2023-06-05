@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@/contexts/authContext";
+import { useAuth } from "@/contexts/appContext";
 
 const LoginForm = () => {
   // const [formData, setFormData] = useState({
