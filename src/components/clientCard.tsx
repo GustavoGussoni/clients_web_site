@@ -1,11 +1,16 @@
+import { useAuth } from "@/contexts/appContext";
 import { ClientReturnData } from "@/schemas/client.schema";
 import { contactData } from "@/schemas/contact.schema";
+import { useState } from "react";
+import EditContactModal from "./editContactModal";
 
 interface IClientCardProps {
   client: ClientReturnData;
 }
 
 const ClientCard = ({ client }: IClientCardProps) => {
+  const { removeClient } = useAuth();
+
   return (
     <div className="shadow-lg rounded-lg overflow-hidden">
       <div className="p-4">
@@ -18,7 +23,10 @@ const ClientCard = ({ client }: IClientCardProps) => {
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2 rounded">
           Editar
         </button>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <button
+          onClick={() => removeClient(client.id)}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
           Excluir
         </button>
       </div>

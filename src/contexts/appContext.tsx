@@ -3,7 +3,7 @@ import {
   ClientRegisterData,
   LoginData,
 } from "@/schemas/client.schema";
-import { createContactData } from "@/schemas/contact.schema";
+import { createContactData, editContactData } from "@/schemas/contact.schema";
 import api from "@/services/api";
 import { useRouter } from "next/router";
 import { parseCookies, setCookie } from "nookies";
@@ -20,6 +20,8 @@ interface authProviderData {
   login: (loginData: LoginData) => void;
   registerContact: (contactData: createContactData) => void;
   removeContact: (contactId: string) => void;
+  removeClient: (clientId: string) => void;
+  editContact: (contactId: string, contactData: editContactData) => void;
   //   token: string | undefined;
 }
 
@@ -175,9 +177,90 @@ export const AuthProvider = ({ children }: Props) => {
       });
   };
 
+  const removeClient = (clientId: string) => {
+    api
+      .delete(`/clients/${clientId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        toast.success("Conta deletada com sucesso!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(
+          "Erro! Você não tem autorização para deletar outros clientes",
+          {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
+        router.push("/");
+      });
+  };
+
+  const editContact = (contactId: string, contactData: editContactData) => {
+    api
+      .patch(`/contacts/${contactId}`, contactData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        toast.success("Contato editado!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/contacts");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Erro! Email já cadastrado...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/contacts");
+      });
+  };
   return (
     <AuthContext.Provider
-      value={{ register, login, registerContact, removeContact }}
+      value={{
+        register,
+        login,
+        registerContact,
+        removeContact,
+        removeClient,
+        editContact,
+      }}
     >
       {children}
     </AuthContext.Provider>
